@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+
+        .user-main{
+            height: fit-content;
+            display: grid;
+            grid-template-columns: 5fr 2fr;
+        }
+        .right-user-profile-temp{
+            height: fit-content;
+            display: flex;
+            justify-content: center;
+            border-style: none;
+            border-left-style: solid;
+            border-left-width: 1px;
+            border-left-color: lightgray;
+            border-bottom-style: solid;
+            border-bottom-width: 1px;
+            border-bottom-color: lightgray;
+            padding-bottom: 3.2vw;
+        }
+        .profile-card{
+            width: 20vw;
+        }
+        .profile-pic{
+            width: 20vw;
+            height: 20vw;
+        }
+        .profile-circle{
+            background-color: darkgray;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-top: 2vw;
+        }
+
+        .default-circle{
+            background-color: lightgray;
+            position: relative;
+            border-radius: 50%;
+        }
+        .def1{
+            width: 46%;
+            height: 46%;
+            margin-top: 14%;
+            margin-left: 40%;
+        }
+        .def2{
+            width: 20%;
+            height: 20%;
+            margin-left: 16%;
+            margin-top: -2%;
+        }
+        .def3{
+            width: 14%;
+            height: 14%;
+            margin-left: 44%;
+        }
+
+        .name{
+            margin-bottom: 0vw;
+            margin-left: 20px;
+            margin-top: 5px;
+            margin-bottom: 4px;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+        }
+        .content{
+            margin-left: 20px;
+            margin-bottom: 4px;
+        }
+        .name h4{
+            width: fit-content;
+            font-size: 30px;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        .likes-etc{
+            margin-left: 70px;
+            display: flex;
+            justify-content: baseline;
+        }
+        .likes-etc button{
+            background-color: white;
+            border-style: solid;
+            border-width: 1px;
+            border-color: lightgray;
+            border-radius: 3px;
+            cursor: pointer;
+            text-wrap: nowrap;
+        }
+        .likes-etc button:hover{
+            background-color: lightgray;
+        }
+        .likes-etc button:active{
+            background-color: darkgray;
+        }
+
+
+        .pronouns{
+            width: fit-content;
+            color: gray;
+        }
+
+        .bio{
+            margin-left: 2vw;
+        }
+
+        .add-stuff-btn{
+            margin-left: 2vw;
+        }
+        .add-stuff-btn button{
+            height: 30px;
+            width: 80px;
+            border-style: solid;
+            border-width: 2px;
+            border-color: lightgray;
+            border-radius: 3px;
+            background-color: white;
+            cursor: pointer;
+        }
+        .add-stuff-btn button:hover{
+            background-color: lightgray;
+        }
+        .add-stuff-btn button:active{
+            background-color: darkgray;
+        }
+
+        .follow-numbers{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+        .follow-field{
+            height: fit-content;
+            display: grid;
+            grid-template-rows: 1fr 1fr;
+        }
+        .follow-field div{
+            display: flex;
+            justify-content: center;
+            height: fit-content;
+        }
+        .follow-field div h2{
+            margin-top: 2vw;
+            margin-bottom: 0.6vw;
+        }
+
+
+        .info-form{
+            overflow: hidden;
+            visibility: hidden;
+            height: 0;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            padding-left: 2vw;
+            padding-bottom: 0;
+            border-style: none;
+            border-bottom-style: solid;
+            border-bottom-width: 0;
+            border-bottom-color: lightgray;
+        }
+        .info-form form{
+            display: grid;
+            grid-template-rows: 1fr 1fr 1fr;
+            gap: 5px;
+        }
+
+        .pronouns-input{
+            width: 20%;
+            height: 25px;
+        }
+        .sec-form-input{
+            width: 70%;
+            height: 25px;
+        }
+
+        .political_labels{
+            margin-left: 2vw;
+            font-style: italic;
+        }
+
+        .bio-textarea{
+            width: 70%;
+            height: 60px;
+            resize: none;
+        }
+
+        .add-some-info, .cancel{
+            margin-top: 5px;
+            width: 200px;
+            height: 30px;
+            border-style: solid;
+            border-width: 2px;
+            border-color: lightgray;
+            border-radius: 3px;
+            background-color: white;
+            cursor: pointer;
+        }
+        .add-some-info:hover{
+            background-color: lightgray;
+        }
+        .add-some-info:active{
+            background-color: darkgray;
+        }
+        .cancel:hover{
+            background-color: lightgray;
+        }
+        .cancel:active{
+            background-color: darkgray;
+        }
+
+
+        .no-post-disclaimer{
+            display: flex;
+            justify-content: center;
+            align-items: end;
+            height: 400px;
+            font-size: 20px;
+        }
+
+
+        .delete-panel{
+            background-color: black;
+            color: white;
+            position: absolute;
+            left: 45%;
+            top: 20vw;
+            padding-left: 20px;
+            padding-right: 20px;
+            visibility: hidden;
+        }
+        .delete-panel-card{
+            width: 170px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .delete-panel-card button{
+            background-color: black;
+            width: 50%;
+            height: 26px;
+            cursor: pointer;
+            border-style: none;
+        }
+
+        .delete-btn{
+            color: red;
+            font-weight: 700;
+        }
+        .cancel-btn{
+            color: white;
+            font-weight: 700;
+        }
+
+
+
+        .post-template{
+            display: grid;
+            grid-template-columns: 50px auto;
+            height: fit-content;
+            margin-right: 20px;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            padding-left: 20px;
+        }
+        .profile-square{
+            height: 100%;
+            width: 50px;
+        }
+        .profile-picture{
+            height: 50px;
+            border-radius: 50%;
+            background-color: darkgray;
+            overflow: hidden;
+        }
+
+        .delete-question{
+            background-color: white;
+            border-style: solid;
+            border-width: 1px;
+            border-color: red;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .delete-question:hover{
+            background-color: red;
+            color: white;
+        }
+        .delete-question:active{
+            background-color: darkred;
+        }
+
+
+        .follow-btn{
+            margin-left: 2vw;
+            padding-top: 1vw;
+        }
+        .follow-btn button{
+            width: 63px;
+            height: 28px;
+            background-color: white;
+            border-style: solid;
+            border-width: 1px;
+            border-color: lightgray;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .follow-btn button:hover{
+            background-color: lightgray;
+        }
+        .follow-btn button:active{
+            background-color: darkgray;
+        }
+
+        .follow-link{
+            text-decoration: none;
+            color: black;
+        }
+    </style>
+    <title> {{ user.username }} </title>
+</head>
+<body>
+    
+    {% extends 'base.html' %}
+    {% block content %}
+
+
+    <div class="user-main" id="user-main">
+        <div class="left-main-posts">
+
+
+            <div class="my-own-posts" id="my-own-posts">  <!--  This is the profile's own post feed  -->
+                {% if user.posts %}                 <!--  Delete button for posts <button onclick="deletequestion()">Delete</button> -->
+
+
+                    {% for post in posts %}
+
+
+
+                    <!--  post template for personal posts  -->
+                    <div class="post-template">
+                        <div class="profile-pic-part">
+                            <div class="profile-square">
+                                <div class="profile-picture">
+                                    {% if user.profile_pic %}
+                                    <img src="{{ url_for('static', filename='profile_pictures/' + user.profile_pic) }}" style="width: 100%;">
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="name-and-content">
+                            <div class="name"> <a>{{ user.username }}</a> </div>
+                            <div class="content" style="white-space: pre-wrap;"> {{ post.content | indent(True) }} </div>
+                        </div>
+                        <div class="likes-etc">
+                            {% if post in current_user.liked_posts %}
+                            <a href="{{ url_for('unlike', id=post.id) }}"><button>❤️ {{ post.likes_count }}</button></a>
+                            {% else %}
+                            <a href="{{ url_for('like', id=post.id) }}"><button>🖤 {{ post.likes_count }}</button></a>
+                            {% endif %}
+                            <a href="{{ url_for('comment', id=post.id) }}"><button>🗨️ {{ post.comments_count }}</button></a>
+                        </div>
+                    </div>
+
+                    {% endfor %}
+
+                {% else %}
+                <div class="no-post-disclaimer">
+                    There are no posts yet
+                </div>
+                {% endif %}
+            </div>
+
+        </div>
+
+
+
+
+        <div class="right-user-profile-temp" id="right-user-profile-temp">
+
+            <div class="profile-card">
+                <div class="profile-pic">
+                    <div class="profile-circle">
+                        {% if user.profile_pic %}
+                        <img src="{{ url_for('static', filename='profile_pictures/' + user.profile_pic) }}" style="width: 100%;">
+                        {% else %}
+                        <div class="default-circle def1"></div>
+                        <div class="default-circle def2"></div>
+                        <div class="default-circle def3"></div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="gen-info">
+
+                    <div class="follow-numbers">
+                        <div class="follower-number follow-field">
+                            <div><h2> <a href="{{ url_for('follow_page', id=user.id) }}" class="follow-link">{{ user.followers_count }}</a> </h2></div>
+                            <div> <a href="{{ url_for('follow_page', id=user.id) }}" class="follow-link">Followers</a> </div>
+                        </div>
+                        <div class="following-number follow-field">
+                            <div><h2> <a href="{{ url_for('follow_page', id=user.id) }}" class="follow-link">{{ user.following_count }}</a> </h2></div>
+                            <div> <a href="{{ url_for('follow_page', id=user.id) }}" class="follow-link">Following</a> </div>
+                        </div>
+                    </div>
+
+                    <div class="name"><h4> {{ user.name }} </h4> 
+                        {% if user.pronouns %}
+                        <div class="pronouns">({{ user.pronouns }})</div> 
+                        {% endif %}
+                    </div>
+                    {% if user.political_labels %}
+                    <div class="political_labels"> {{ user.political_labels }} </div>
+                    {% endif %}
+                    {% if user.bio %}
+                    <div class="bio" style="white-space: pre-wrap;"> {{ user.bio | indent(True) }} </div>
+                    {% endif %}
+                    <div class="follow-btn">
+                        {% if follow_this_user %}
+                        <a href="{{ url_for('unfollow', id=user.id) }}"><button>Unfollow</button></a>
+                        {% else %}
+                        <a href="{{ url_for('follow', id=user.id) }}"><button>Follow</button></a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!--   <a href="{{ url_for('delete_user', id=current_user.id) }}">Delete My Account</a>   -->
+
+    {% endblock %}
+
+</body>
+</html>

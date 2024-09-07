@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .create-main h1{
+            width: fit-content;
+        }
+        .post-creation-mid{
+            width: 100%;
+        }
+        .create-main{
+            margin-left: 3vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .content{
+            width: 70%;
+            height: 10vw;
+            resize: none;
+        }
+
+        .post-btn{
+            height: 30px;
+            width: 8vw;
+            background-color: white;
+            border-style: solid;
+            border-width: 1px;
+            border-color: lightgray;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+        .post-btn:hover{
+            background-color: lightgray;
+        }
+        .post-btn:active{
+            background-color: gray;
+        }
+    </style>
+    <title>Create Post</title>
+</head>
+<body>
+    
+    {% extends 'base.html' %}
+    {% block content %}
+
+    <div class="create-main">
+        <h1>Create a Post</h1>
+        <div class="post-creation-mid">
+            <form method="POST">
+                <textarea name="content" class="content" placeholder="Post something..." maxlength="500" required></textarea><br>
+
+                <button type="submit" class="post-btn">Post</button>
+            </form>
+        </div>
+    </div>
+
+    {% endblock %}
+
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+
+        .follow-main{
+            display: flex;
+            justify-content: center;
+        }
+        .follow-grid{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            width: 50vw;
+            height: 200px;
+        }
+        .following-right{
+            border-style: none;
+            border-left-style: solid;
+            border-left-width: 1px;
+            border-left-color: lightgray;
+        }
+
+        .follow-person-template{
+            height: 50px;
+            display: grid;
+            grid-template-columns: 50px auto;
+            margin-left: 20px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .profile-circle{
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            background-color: gray;
+        }
+
+        .name-side{
+            display: flex;
+            align-items: center;
+            margin-left: 1vw;
+            font-weight: 700;
+        }
+        .follow-title{
+            margin-left: 20px;
+        }
+
+        .follow-link{
+            text-decoration: none;
+            color: black;
+        }
+    </style>
+    <title>Followers and Following</title>
+</head>
+<body>
+    
+    {% extends 'base.html' %}
+    {% block content %}
+
+    <div class="follow-main">
+
+        <div class="follow-grid">
+            <div class="follower-left">
+                <div><h2 class="follow-title">Followers</h2></div>
+
+                {% for follower in followers %}
+                <div class="follow-person-template">
+                    <div class="profile-side">
+                        {% if follower.id == current_user.id %}
+                        <a href="{{ url_for('user_profile', id=current_user.id) }}"><div class="profile-circle">
+                            {% if follower.profile_pic %}
+                            {% endif %}
+                        </div></a>
+                        {% else %}
+                        <a href="{{ url_for('user_page', id=follower.id) }}"><div class="profile-circle">
+                            {% if follower.profile_pic %}
+                            {% endif %}
+                        </div></a>
+                        {% endif %}
+                    </div>
+                    <div class="name-side">
+                        {% if follower.id == current_user.id %}
+                        <a href="{{ url_for('user_profile', id=current_user.id) }}" class="follow-link">{{ follower.username }}</a>
+                        {% else %}
+                        <a href="{{ url_for('user_page', id=follower.id) }}" class="follow-link">{{ follower.username }}</a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+
+            </div>
+
+            <div class="following-right">
+                <div><h2 class="follow-title">Following</h2></div>
+
+                {% for following in followings %}
+                <div class="follow-person-template">
+                    <div class="profile-side">
+                        {% if following.id == current_user.id %}
+                        <a href="{{ url_for('user_profile', id=current_user.id) }}"><div class="profile-circle">
+                            {% if following.profile_pic %}
+                            {% endif %}
+                        </div></a>
+                        {% else %}
+                        <a href="{{ url_for('user_page', id=following.id) }}"><div class="profile-circle">
+                            {% if following.profile_pic %}
+                            {% endif %}
+                        </div></a>
+                        {% endif %}
+                    </div>
+                    <div class="name-side">
+                        {% if following.id == current_user.id %}
+                        <a href="{{ url_for('user_profile', id=current_user.id) }}" class="follow-link">{{ following.username }}</a>
+                        {% else %}
+                        <a href="{{ url_for('user_page', id=following.id) }}" class="follow-link">{{ following.username }}</a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+
+    {% endblock %}
+
+</body>
+</html>

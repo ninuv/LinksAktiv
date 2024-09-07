@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+
+        .search-box{
+            margin-left: 2vw;
+            margin-top: 2vw;
+        }
+        .searchbar{
+            height: 32px;
+            width: 10vw;
+        }
+        .search-btn{
+            height: 38px;
+            background-color: white;
+            border-style: solid;
+            border-width: 1px;
+            border-color: lightgray;
+            cursor: pointer;
+        }
+        .search-btn:hover{
+            background-color: lightgray;
+        }
+        .search-btn:active{
+            background-color: darkgray;
+        }
+
+        .post-template{
+            display: grid;
+            grid-template-columns: 50px auto;
+            height: fit-content;
+            margin-right: 20px;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            padding-left: 20px;
+        }
+        .profile-square{
+            height: 100%;
+            width: 50px;
+        }
+        .profile-picture{
+            height: 50px;
+            border-radius: 50%;
+            background-color: darkgray;
+            overflow: hidden;
+        }
+
+        .date-of-post{
+            color: gray;
+            font-weight: 100;
+            font-size: 14px;
+        }
+
+        .name{
+            margin-bottom: 0vw;
+            margin-left: 20px;
+            margin-top: 5px;
+            margin-bottom: 4px;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+        }
+        .name a{
+            text-decoration: none;
+            color: black;
+        }
+        .content{
+            margin-left: 20px;
+            margin-bottom: 4px;
+        }
+        .name h4{
+            width: fit-content;
+            font-size: 30px;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        .likes-etc{
+            margin-left: 70px;
+            display: flex;
+            justify-content: baseline;
+        }
+        .likes-etc button{
+            background-color: white;
+            border-style: solid;
+            border-width: 1px;
+            border-color: lightgray;
+            border-radius: 3px;
+            cursor: pointer;
+            text-wrap: nowrap;
+        }
+        .likes-etc button:hover{
+            background-color: lightgray;
+        }
+        .likes-etc button:active{
+            background-color: darkgray;
+        }
+
+
+        .search-res-grid{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+        .search-post-feed{
+            border-style: none;
+            border-right-style: solid;
+            border-right-width: 1px;
+            border-right-color: lightgray;
+        }
+
+        .user-res-box-template{
+            display: grid;
+            grid-template-columns: 50px auto;
+            height: fit-content;
+            margin-right: 20px;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            padding-left: 20px;
+        }
+        .name-part{
+            display: flex;
+            align-items: center;
+            margin-left: 20px;
+            font-weight: 700;
+        }
+        .name-part a{
+            color: black;
+            text-decoration: none;
+        }
+
+    </style>
+    <title>Search</title>
+</head>
+<body>
+    
+    {% extends 'base.html' %}
+    {% block content %}
+
+    <div class="search-main">
+        <div class="search-box">
+            <form method="POST">
+                <input name="searchbar" class="searchbar" placeholder="Search" value="{{ searchterm }}" required><button type="submit" class="search-btn">Give me results!</button>
+            </form>
+        </div>
+
+        <div class="search-res-grid">
+
+            <div class="search-post-feed">
+
+
+                {% for post in posts %}
+                <div class="post-template">
+                    <div class="profile-pic-part">
+                        <div class="profile-square">
+                            {% if current_user.id == post.poster.id %}
+                            <a href="{{ url_for('user_profile') }}">
+                                <div class="profile-picture">
+                                    {% if current_user.profile_pic %}
+                                    <img src="{{ url_for('static', filename='profile_pictures/' + current_user.profile_pic) }}" style="width: 100%;">
+                                    {% endif %}
+                                </div>
+                            </a>
+                            {% else %}
+                            <a href="{{ url_for('user_page', id=post.poster.id) }}">
+                                <div class="profile-picture">
+                                    {% if post.poster.profile_pic %}
+                                    <img src="{{ url_for('static', filename='profile_pictures/' + post.poster.profile_pic) }}" style="width: 100%;">
+                                    {% endif %}
+                                </div>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="name-and-content">
+                        <div class="name">
+                            {% if current_user.id == post.poster.id %}
+                            <a href="{{ url_for('user_profile') }}">{{ post.poster.username }}</a>
+                            <span class="date-of-post">{{ post.created_at.strftime('%d.%m.%Y') }}</span>
+                            {% else %}
+                            <a href="{{ url_for('user_page', id=post.poster.id) }}">{{ post.poster.username }}</a>
+                            <span class="date-of-post">{{ post.created_at.strftime('%d.%m.%Y') }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="content" style="white-space: pre-wrap;"> {{ post.content | indent(True) }} </div>
+                    </div>
+                    <div class="likes-etc">
+                        {% if post in current_user.liked_posts %}
+                        <a href="{{ url_for('unlike', id=post.id) }}"><button>❤️ {{ post.likes_count }}</button></a>
+                        {% else %}
+                        <a href="{{ url_for('like', id=post.id) }}"><button>🖤 {{ post.likes_count }}</button></a>
+                        {% endif %}
+                        <a href="{{ url_for('comment', id=post.id) }}"><button>🗨️ {{ post.comments_count }}</button></a>
+                    </div>
+                </div>
+                {% endfor %}
+
+
+            </div>
+
+            <div class="user-results">
+
+                {% for user in users %}
+                <div class="user-res-box-template">
+                    <div class="profile-pic-part">
+                        <div class="profile-square">
+                            {% if current_user.id == user.id %}
+                            <a href="{{ url_for('user_profile') }}">
+                                <div class="profile-picture">
+                                    {% if current_user.profile_pic %}
+                                    <img src="{{ url_for('static', filename='profile_pictures/' + current_user.profile_pic) }}" style="width: 100%;">
+                                    {% endif %}
+                                </div>
+                            </a>
+                            {% else %}
+                            <a href="{{ url_for('user_page', id=user.id) }}">
+                                <div class="profile-picture">
+                                    {% if user.profile_pic %}
+                                    <img src="{{ url_for('static', filename='profile_pictures/' + user.profile_pic) }}" style="width: 100%;">
+                                    {% endif %}
+                                </div>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="name-part">
+                        {% if current_user.id == user.id %}
+                        <a href="{{ url_for('user_profile') }}">{{ user.username }}</a>
+                        {% else %}
+                        <a href="{{ url_for('user_page', id=user.id) }}">{{ user.username }}</a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+
+            </div>
+
+        </div>
+    </div>
+
+    {% endblock %}
+
+</body>
+</html>

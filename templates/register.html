@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+        }
+        main{
+            display: flex;
+            justify-content: center;
+        }
+        .register-card{
+            background-color: white;
+            border-style: solid;
+            border-width: 1px;
+            border-color: lightgray;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 22vw;
+            margin-top: 8vw;
+            gap: 12px;
+            padding-top: 3vw;
+            padding-bottom: 3vw;
+        }
+        .register-card h2{
+            margin-top: 0;
+        }
+        .register-card {
+            min-width: 300px;
+        }
+        .register-card form div{
+            display: grid;
+            grid-template-rows: 1fr 1fr 1fr;
+            gap: 3px;
+            width: 100%;
+        }
+        .register-card form div input{
+            height: 30px;
+        }
+        .register-btn{
+            height: 30px;
+            background-color: white;
+            border-style: solid;
+            border-width: 1px;
+            border-color: lightgray;
+            cursor: pointer;
+        }
+        .register-btn:hover{
+            background-color: lightgray;
+        }
+        .register-btn:active{
+            background-color: darkgray;
+        }
+
+        .low-input{
+            margin-bottom: 10px;
+        }
+
+
+        .personal-bundle{
+            margin-bottom: 10px;
+        }
+        .account-bundle{
+            margin-bottom: 10px;
+        }
+    </style>
+    <title>Register</title>
+</head>
+<body>
+    
+    <main>
+        <div class="register-card">
+            <h2>Register</h2>
+            <form method="POST">
+                <div class="personal-bundle">
+                    <input name="name" class="name" id="name" type="text" placeholder="Name" required>
+                    <input name="gender" class="gender" id="gender" type="text" placeholder="Gender" required>
+                    <input name="age" class="age" id="age" type="text" placeholder="Age" required>
+                </div>
+
+                <div class="account-bundle">
+                    <input name="username" class="username" id="username" type="text" placeholder="Username" required>
+                    <input name="password" class="password" id="password" type="password" placeholder="Password" required>
+                </div>
+
+                <div class="accept-bundle">
+                    <input name="email" class="email" id="email" type="text" placeholder="E-Mail" required>
+
+                    I accept the Terms of Service
+                    <input type="checkbox" name="terms-of-service" class="terms-of-service" id="terms-of-service" required>
+                </div>
+
+                <div class="button-bundle">
+                    <button type="submit" class="register-btn">Create Account</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+
+</body>
+</html>

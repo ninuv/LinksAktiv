@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .post-template{
+            display: grid;
+            grid-template-columns: 50px auto;
+            height: fit-content;
+            margin-right: 20px;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            padding-left: 20px;
+        }
+        .comment-template{
+            display: grid;
+            grid-template-columns: 50px auto;
+            height: fit-content;
+            margin-right: 20px;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            padding-left: 40px;
+        }
+        .profile-square{
+            height: 100%;
+            width: 50px;
+        }
+        .profile-picture{
+            height: 50px;
+            border-radius: 50%;
+            background-color: darkgray;
+            overflow: hidden;
+        }
+
+        .date-of-post{
+            color: gray;
+            font-weight: 100;
+            font-size: 14px;
+        }
+
+        .name{
+            margin-bottom: 0vw;
+            margin-left: 20px;
+            margin-top: 5px;
+            margin-bottom: 4px;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+        }
+        .name a{
+            text-decoration: none;
+            color: black;
+        }
+        .content{
+            margin-left: 20px;
+            margin-bottom: 4px;
+        }
+        .name h4{
+            width: fit-content;
+            font-size: 30px;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        .likes-etc{
+            margin-left: 70px;
+            display: flex;
+            justify-content: baseline;
+        }
+        .likes-etc button{
+            background-color: white;
+            border-style: solid;
+            border-width: 1px;
+            border-color: lightgray;
+            border-radius: 3px;
+            cursor: pointer;
+            text-wrap: nowrap;
+        }
+        .likes-etc button:hover{
+            background-color: lightgray;
+        }
+        .likes-etc button:active{
+            background-color: darkgray;
+        }
+
+        .comment-create{
+            margin-left: 2vw;
+        }
+        .comment-create textarea{
+            width: 60%;
+            min-height: 100px;
+            resize: none;
+        }
+
+        .comments-title{
+            margin-left: 2vw;
+        }
+
+        .comment-btn{
+            height: 30px;
+            background-color: white;
+            border-style: solid;
+            border-width: 1px;
+            border-color: lightgray;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-top: 4px;
+        }
+        .comment-btn:hover{
+            background-color: lightgray;
+        }
+        .comment-btn:active{
+            background-color: darkgray;
+        }
+
+
+
+        
+    </style>
+    <title>{{ post.poster.username }}'s post</title>
+</head>
+<body>
+    
+    {% extends 'base.html' %}
+    {% block content %}
+
+    <div class="post-template">
+        <div class="profile-pic-part">
+            <div class="profile-square">
+                {% if current_user.id == post.poster.id %}
+                <a href="{{ url_for('user_profile') }}">
+                    <div class="profile-picture">
+                        {% if current_user.profile_pic %}
+                        <img src="{{ url_for('static', filename='profile_pictures/' + current_user.profile_pic) }}" style="width: 100%;">
+                        {% endif %}
+                    </div>
+                </a>
+                {% else %}
+                <a href="{{ url_for('user_page', id=post.poster.id) }}">
+                    <div class="profile-picture">
+                        {% if post.poster.profile_pic %}
+                        <img src="{{ url_for('static', filename='profile_pictures/' + post.poster.profile_pic) }}" style="width: 100%;">
+                        {% endif %}
+                    </div>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="name-and-content">
+            <div class="name">
+                {% if current_user.id == post.poster.id %}
+                <a href="{{ url_for('user_profile') }}">{{ post.poster.username }}</a>
+                <span class="date-of-post">{{ post.created_at.strftime('%d.%m.%Y') }}</span>
+                {% else %}
+                <a href="{{ url_for('user_page', id=post.poster.id) }}">{{ post.poster.username }}</a>
+                <span class="date-of-post">{{ post.created_at.strftime('%d.%m.%Y') }}</span>
+                {% endif %}
+            </div>
+            <div class="content" style="white-space: pre-wrap;"> {{ post.content | indent(True) }} </div>
+        </div>
+        <div class="likes-etc">
+            {% if post in current_user.liked_posts %}
+            <a href="{{ url_for('unlike', id=post.id) }}"><button>❤️ {{ post.likes_count }}</button></a>
+            {% else %}
+            <a href="{{ url_for('like', id=post.id) }}"><button>🖤 {{ post.likes_count }}</button></a>
+            {% endif %}
+            <a><button>🗨️ {{ post.comments_count }}</button></a>
+        </div>
+    </div>
+
+
+    <div class="comment-create">
+        <form method="POST">
+            <textarea class="comment-content" placeholder="Comment on post" name="content" required></textarea><br>
+            <button type="submit" class="comment-btn">Comment</button>
+        </form>
+    </div>
+
+    <h2 class="comments-title">Comments</h2>
+
+
+    {% for comment in comments %}
+    <!-- comments template -->
+    <div class="comment-template">
+        <div class="profile-pic-part">
+            <div class="profile-square">
+                {% if current_user.id == comment.author_id %}
+                <a href="{{ url_for('user_profile') }}">
+                    <div class="profile-picture">
+                        {% if current_user.profile_pic %}
+                        <img src="{{ url_for('static', filename='profile_pictures/' + current_user.profile_pic) }}" style="width: 100%;">
+                        {% endif %}
+                    </div>
+                </a>
+                {% else %}
+                <a href="{{ url_for('user_page', id=comment.author_id) }}">
+                    <div class="profile-picture">
+                        {% if comment.profile_pic_of_commentor %}
+                        <img src="{{ url_for('static', filename='profile_pictures/' + comment.profile_pic_of_commentor) }}" style="width: 100%;">
+                        {% endif %}
+                    </div>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="name-and-content">
+            <div class="name">
+                {% if current_user.id == comment.author_id %}
+                <a href="{{ url_for('user_profile') }}">{{ comment.username_of_commentor }}</a>
+                <span class="date-of-post">{{ comment.commented_at.strftime('%d.%m.%Y') }}</span>
+                {% else %}
+                <a href="{{ url_for('user_page', id=comment.author_id) }}">{{ comment.username_of_commentor }}</a>
+                <span class="date-of-post">{{ comment.commented_at.strftime('%d.%m.%Y') }}</span>
+                {% endif %}
+            </div>
+            <div class="content" style="white-space: pre-wrap;"> {{ comment.content | indent(True) }} </div>
+        </div>
+        <div class="likes-etc"></div>
+    </div>
+    {% endfor %}
+
+    {% endblock %}
+
+</body>
+</html>

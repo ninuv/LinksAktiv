@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+
+        .notification-template{
+            display: grid;
+            grid-template-columns: 50px auto;
+            padding-left: 2vw;
+            padding-top: 1vw;
+        }
+        .profile-left{
+            width: 50px;
+            height: 50px;
+        }
+        .profile-circle{
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-color: gray;
+            overflow: hidden;
+        }
+        .empty-link{
+            height: 100%;
+            width: 100%;
+        }
+        .note{
+            display: flex;
+            align-items: center;
+            padding-left: 1vw;
+        }
+        .note a{
+            text-decoration: none;
+            color: black;
+        }
+    </style>
+    <title>Notifications</title>
+</head>
+<body>
+    
+    {% extends 'base.html' %}
+    {% block content %}
+
+
+    {% if notes %}
+        {% for notification in notes %}
+        {% if notification.sender_id != current_user.id %}
+        <div class="notification-template">
+            <div class="profile-left">
+                <div class="profile-circle">
+                    {% if notification.sender_profile_pic %}
+                    <a href="{{ url_for('user_page', id=notification.sender_id) }}"><img src="{{ url_for('static', filename='profile_pictures/' + notification.sender_profile_pic) }}" style="width: 100%;"></a>
+                    {% else %}
+                    <a href="{{ url_for('user_page', id=notification.sender_id) }}">
+                        <div class="empty-link"></div>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="note">
+                {% if notification.action != 'comment' %}
+                <a href="{{ url_for('user_page', id=notification.sender_id) }}">{{ notification.content }}</a>
+                {% else %}
+                <a href="{{ url_for('comment', id=notification.possible_post_id) }}">{{ notification.content }}</a>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    
+    {% endblock %}
+
+</body>
+</html>

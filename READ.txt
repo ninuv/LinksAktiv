@@ -1,0 +1,13 @@
+this version of 'Aktiv Links' is not entirely responsive yet!
+
+it displays the basic operations of social networking.
+
+
+dependencies:
+- flask
+- flask_sqlalchemy
+- flask_login
+- flask_moment
+- werkzeug
+- datetime
+- bcrypt

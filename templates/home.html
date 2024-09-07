@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+
+        .home-main{
+            display: grid;
+            grid-template-columns: 5fr 2fr;
+            height: 400px;
+        }
+        .feed{
+            border-style: none;
+            border-right-style: solid;
+            border-right-color: lightgray;
+            border-right-width: 1px;
+        }
+
+
+        .post-template{
+            display: grid;
+            grid-template-columns: 50px auto;
+            height: fit-content;
+            margin-right: 20px;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            padding-left: 20px;
+        }
+        .profile-square{
+            height: 100%;
+            width: 50px;
+        }
+        .profile-picture{
+            height: 50px;
+            border-radius: 50%;
+            background-color: darkgray;
+            overflow: hidden;
+        }
+
+        .date-of-post{
+            color: gray;
+            font-weight: 100;
+            font-size: 14px;
+        }
+
+        .name{
+            margin-bottom: 0vw;
+            margin-left: 20px;
+            margin-top: 5px;
+            margin-bottom: 4px;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+        }
+        .name a{
+            text-decoration: none;
+            color: black;
+        }
+        .content{
+            margin-left: 20px;
+            margin-bottom: 4px;
+        }
+        .name h4{
+            width: fit-content;
+            font-size: 30px;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        .likes-etc{
+            margin-left: 70px;
+            display: flex;
+            justify-content: baseline;
+        }
+        .likes-etc button{
+            background-color: white;
+            border-style: solid;
+            border-width: 1px;
+            border-color: lightgray;
+            border-radius: 3px;
+            cursor: pointer;
+            text-wrap: nowrap;
+        }
+        .likes-etc button:hover{
+            background-color: lightgray;
+        }
+        .likes-etc button:active{
+            background-color: darkgray;
+        }
+    </style>
+    <title>Chain Connect</title>
+</head>
+<body>
+    
+    {% extends 'base.html' %}
+    {% block content %}
+
+    <div class="home-main">
+
+        <div class="feed">
+            {% for post in posts %}
+
+            <div class="post-template">
+                <div class="profile-pic-part">
+                    <div class="profile-square">
+                        {% if current_user.id == post.poster.id %}
+                        <a href="{{ url_for('user_profile') }}">
+                            <div class="profile-picture">
+                                {% if current_user.profile_pic %}
+                                <img src="{{ url_for('static', filename='profile_pictures/' + current_user.profile_pic) }}" style="width: 100%;">
+                                {% endif %}
+                            </div>
+                        </a>
+                        {% else %}
+                        <a href="{{ url_for('user_page', id=post.poster.id) }}">
+                            <div class="profile-picture">
+                                {% if post.poster.profile_pic %}
+                                <img src="{{ url_for('static', filename='profile_pictures/' + post.poster.profile_pic) }}" style="width: 100%;">
+                                {% endif %}
+                            </div>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="name-and-content">
+                    <div class="name">
+                        {% if current_user.id == post.poster.id %}
+                        <a href="{{ url_for('user_profile') }}">{{ post.poster.username }}</a>
+                        <span class="date-of-post">{{ post.created_at.strftime('%d.%m.%Y') }}</span>
+                        {% else %}
+                        <a href="{{ url_for('user_page', id=post.poster.id) }}">{{ post.poster.username }}</a>
+                        <span class="date-of-post">{{ post.created_at.strftime('%d.%m.%Y') }}</span>
+                        {% endif %}
+                    </div>
+                    <div class="content" style="white-space: pre-wrap;"> {{ post.content | indent(True) }} </div>
+                </div>
+                <div class="likes-etc">
+                    {% if post in current_user.liked_posts %}
+                    <a href="{{ url_for('unlike', id=post.id) }}"><button>❤️ {{ post.likes_count }}</button></a>
+                    {% else %}
+                    <a href="{{ url_for('like', id=post.id) }}"><button>🖤 {{ post.likes_count }}</button></a>
+                    {% endif %}
+                    <a href="{{ url_for('comment', id=post.id) }}"><button>🗨️ {{ post.comments_count }}</button></a>
+                </div>
+            </div>
+
+            {% endfor %}
+        </div>
+        <div class="right-column"></div>
+
+
+    </div>
+    
+    {% endblock %}
+
+</body>
+</html>

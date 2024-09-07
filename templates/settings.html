@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+
+        .settings-main{
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            height: fit-content;
+        }
+        .setting-list{
+            border-style: none;
+            border-right-style: solid;
+            border-right-width: 1px;
+            border-right-color: lightgray;
+        }
+        .setting-list h2{
+            margin-left: 2vw;
+        }
+        .setting-list ul{
+            list-style-type: none;
+            display: grid;
+            grid-template-rows: 1fr 1fr;
+            gap: 13px;
+            padding: 0;
+            margin-bottom: 0;
+        }
+        .setting-list ul li button{
+            width: 100%;
+            height: 40px;
+            cursor: pointer;
+            border-style: none;
+            border-bottom-style:ridge;
+            border-bottom-width: 1px;
+            border-bottom-color: lightgray;
+            border-top-style: solid;
+            border-top-width: 1px;
+            border-top-color: lightgray;
+            background-color: white;
+        }
+        .setting-list ul li button:hover{
+            background-color: lightgray;
+        }
+        .setting-list ul li button:active{
+            background-color: darkgray;
+        }
+
+
+    </style>
+    <title>Settings</title>
+</head>
+<body>
+    
+    {% extends 'base.html' %}
+    {% block content %}
+
+
+    <div class="settings-main">
+        <div class="setting-list">
+            <h2>Settings</h2>
+            <ul>
+                <li><button onclick="openlanguagesetting()">Language</button></li>
+                <li><button onclick="opendeleteaccountsetting()">Delete My Account</button></li>
+            </ul>
+        </div>
+        <div class="actual-settings" id="actual-settings">
+            <!--<a href="{{ url_for('delete_user', id=current_user.id) }}"><button>Delete account</button></a>-->
+        </div>
+    </div>
+
+    <script>
+
+        function openlanguagesetting(){
+            
+        }
+        function opendeleteaccountsetting(){
+
+        }
+
+    </script>
+    {% endblock %}
+
+
+
+</body>
+</html>

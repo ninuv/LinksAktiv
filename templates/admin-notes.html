@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .notification-template{
+            display: grid;
+            padding-left: 2vw;
+            padding-top: 1vw;
+        }
+        .profile-left{
+            width: 50px;
+            height: 50px;
+        }
+        .profile-circle{
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-color: gray;
+            overflow: hidden;
+        }
+        .empty-link{
+            height: 100%;
+            width: 100%;
+        }
+        .note{
+            display: flex;
+            align-items: center;
+            padding-left: 1vw;
+            width: 100%;
+        }
+        .note a{
+            text-decoration: none;
+            color: black;
+        }
+    </style>
+    <title>Admin Notes</title>
+</head>
+<body>
+    
+    {% extends 'base.html' %}
+    {% block content %}
+
+    {% for notification in notes %}
+    <div class="notification-template">
+        <div class="note">
+            <a href="{{ url_for('user_page', id=notification.sender_id) }}">{{ notification.content }} -- {{ notification.sent_at.strftime('%d.%m.%Y - %H:%M') }}</a>
+        </div>
+    </div>
+    {% endfor %}
+
+    {% endblock %}
+
+</body>
+</html>

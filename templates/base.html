@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+        }
+        main{
+            display: grid;
+            grid-template-columns: 1fr 4fr;
+        }
+        .side-menu{
+            height: fit-content;
+            background-color: white;
+            border-style: none;
+            border-right-style: solid;
+            border-right-color: lightgray;
+            border-right-width: 1px;
+        }
+        .side-menu ul{
+            padding: 0;
+            margin-bottom: 0;
+            width: 100%;
+            display: grid;
+            gap: 60px;
+            list-style-type: none;
+        }
+        .side-menu h1{
+            color: white;
+            cursor: default;
+        }
+
+        .side-menu ul li a button{
+            width: 100%;
+            height: 40px;
+            cursor: pointer;
+            border-style: none;
+            border-bottom-style:ridge;
+            border-bottom-width: 1px;
+            border-bottom-color: lightgray;
+            border-top-style: solid;
+            border-top-width: 1px;
+            border-top-color: lightgray;
+            background-color: white;
+        }
+        .side-menu ul li a button:hover{
+            background-color: lightgray;
+        }
+        .side-menu ul li a button:active{
+            background-color: darkgray;
+        }
+
+
+
+
+        header{
+            height: fit-content;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border-style: none;
+            border-bottom-style: solid;
+            border-bottom-width: 1px;
+            border-bottom-color: lightgray;
+        }
+        header div{
+            display: flex;
+            justify-content: baseline;
+            align-items: center;
+            margin-left: 2vw;
+        }
+        .log-btn{
+            justify-content: end;
+            margin-right: 3vw;
+        }
+        .log-btn a button{
+            height: 34px;
+            width: 62px;
+            border-color: lightgray;
+            border-style: solid;
+            border-radius: 3px;
+            border-width: 2px;
+            background-color: white;
+            cursor: pointer;
+        }
+        .log-btn a button:hover{
+            background-color: lightgray;
+        }
+        .log-btn a button:active{
+            background-color: darkgray;
+        }
+
+        .page-title h1 a{
+            text-decoration: none;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+
+    <main>
+
+        
+        <div class="side-menu">
+            <h1>Chain Connect</h1>
+            <ul>
+                <li>
+                    <a href="{{ url_for('home') }}"><button>Home</button></a>
+                </li>
+
+                <li>
+                    <a href="{{ url_for('search') }}"><button>Search</button></a>
+                </li>
+
+                <li>
+                    <a href="{{ url_for('create_post') }}"><button>Create</button></a>
+                </li>
+
+                <li>
+                    <a href="{{ url_for('notifications') }}"><button>Notifications</button></a>
+                </li>
+
+                <li>
+                    <a href="{{ url_for('user_profile') }}"><button>Profile</button></a>
+                </li>
+
+                <li>
+                    <a href="{{ url_for('settings') }}"><button>Settings</button></a>
+                </li>
+
+                {% if current_user.role == 1 %}
+                <li>
+                    <a href="{{ url_for('admin_notes') }}"><button>Admin Notes</button></a>
+                </li>
+                {% endif %}
+
+            </ul>
+        </div>
+        <div>
+
+            <header>
+                <div class="page-title">
+                    <h1><a href="{{ url_for('home') }}">Chain Connect</a></h1>
+                </div>
+        
+                <div class="log-btn">
+                    <a href="{{ url_for('logout') }}"><button>Logout</button></a>
+                </div>
+            </header>
+            
+        {% block content %}
+
+        {% endblock %}
+        </div>
+    </main>
+
+</body>
+</html>
